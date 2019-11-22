@@ -27,9 +27,6 @@ const useStyles = makeStyles(theme => ({
   subheader: {
     backgroundColor: theme.palette.background.paper,
   },
-  grow: {
-    flexGrow: 1,
-  },
 }));
 
 export const ListScreen = props => {
@@ -60,11 +57,6 @@ export const ListScreen = props => {
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-                {/* <div>{thing.description}</div>
-              <div>{moment(thing.date).fromNow()}</div>
-              <button onClick={e => handleSubmission(thing)}>
-                I just did this
-              </button> */}
               </React.Fragment>
             ))}
         </List>
