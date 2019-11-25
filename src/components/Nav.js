@@ -39,13 +39,18 @@ export const Nav = props => {
   return (
     <AppBar position="fixed" color="primary" className={classes.appBar}>
       <Toolbar>
-        <IconButton onClick={e => setHelpOpen(true)} edge="end" color="inherit">
+        <IconButton
+          onClick={e => setHelpOpen(true)}
+          edge="end"
+          color="inherit"
+          aria-label="help"
+        >
           <HelpIcon />
         </IconButton>
         <Fab
           onClick={() => onClick(location)}
           color="secondary"
-          aria-label="add"
+          aria-label="add item"
           className={classes.fabButton}
         >
           {screen == "did" && <HomeIcon />}
@@ -56,6 +61,7 @@ export const Nav = props => {
           onClick={e => setSettingsOpen(true)}
           edge="end"
           color="inherit"
+          aria-label="settings"
         >
           <SettingsIcon />
         </IconButton>

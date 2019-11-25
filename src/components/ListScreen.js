@@ -50,7 +50,7 @@ export const ListScreen = props => {
                   <ListItemSecondaryAction>
                     <IconButton
                       edge="end"
-                      aria-label="check"
+                      aria-label="mark done"
                       onClick={e => handleSubmission(thing)}
                     >
                       <CheckCircleIcon />
