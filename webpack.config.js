@@ -1,5 +1,7 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   module: {
@@ -26,6 +28,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html",
@@ -36,5 +39,9 @@ module.exports = {
       clientsClaim: true,
       skipWaiting: true,
     }),
+    new CopyWebpackPlugin([
+      { from: "src/images", to: "images" },
+      "src/manifest.json",
+    ]),
   ],
 };
