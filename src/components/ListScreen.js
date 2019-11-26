@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import formatDistance from 'date-fns/formatDistance';
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
@@ -45,7 +45,8 @@ export const ListScreen = props => {
                 <ListItem>
                   <ListItemText
                     primary={thing.description}
-                    secondary={moment(thing.date).fromNow()}
+                    secondary={formatDistance(new Date(thing.date), new Date(), { addSuffix: true })}
+                  }
                   />
                   <ListItemSecondaryAction>
                     <IconButton
