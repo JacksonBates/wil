@@ -1,6 +1,5 @@
 import React from "react";
 import formatDistance from "date-fns/formatDistance";
-import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -16,7 +15,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 2, 0),
   },
   list: {
-    paddingTop: theme.spacing(10),
+    paddingTop: theme.spacing(7),
+    paddingBottom: theme.spacing(10),
     marginBottom: theme.spacing(2),
   },
   subheader: {
@@ -31,7 +31,7 @@ export const ListScreen = props => {
   const { things, handleSubmission } = props;
   const classes = useStyles();
   return (
-    <>
+    <React.Fragment>
       <Title text="When I Last" />
       <List className={classes.list}>
         {things &&
@@ -57,7 +57,7 @@ export const ListScreen = props => {
             </React.Fragment>
           ))}
       </List>
-    </>
+    </React.Fragment>
   );
 };
 
