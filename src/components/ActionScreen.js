@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const ActionScreen = props => {
-  const { selectedThing: thing, updateThing } = props;
+  const { selectedThing: thing, updateThing, deleteThing, goHome } = props;
   const classes = useStyles();
   const [editMode, setEditMode] = useState(false);
   const [date, setDate] = useState(thing.date);
@@ -35,20 +35,29 @@ export const ActionScreen = props => {
 
   const handleEditButton = () => {
     if (editMode) {
+      // Button says 'Cancel Edit'
       setEditMode(false);
       setDate(thing.date);
       setDescription(thing.description);
     } else {
+      // Button = 'Edit Details'
       setEditMode(true);
     }
   };
 
+  const handleDelete = () => {
+    deleteThing(thing);
+    goHome("main");
+  };
+
   const handleCompleteButton = () => {
     if (editMode) {
+      // Button = Save Details
       setEditMode(false);
-      props.goHome("main");
+      goHome("main");
       updateThing(thing, { description, date: date.valueOf() });
     } else {
+      // Button = Completed Now
       setEditMode(true);
     }
   };
@@ -117,6 +126,7 @@ export const ActionScreen = props => {
           variant="contained"
           color="secondary"
           className={classes.button}
+          onClick={handleDelete}
           endIcon={<DeleteIcon />}
         >
           Delete Task

@@ -33,6 +33,15 @@ export const App = () => {
     setScreen(value);
   };
 
+  const deleteThing = thing => {
+    const otherThings = things.filter(x => x.description !== thing.description);
+    setThings([...otherThings]);
+    localforage.setItem("things", [...otherThings]).catch(err => {
+      console.log(err);
+    });
+    setNewThing("");
+  };
+
   const addThing = thing => {
     const description = thing.hasOwnProperty("description")
       ? thing.description
@@ -96,6 +105,7 @@ export const App = () => {
           selectedThing={selectedThing}
           handleSubmission={addThing}
           updateThing={updateThing}
+          deleteThing={deleteThing}
           goHome={handleMode}
         />
       )}
