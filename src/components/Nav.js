@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const Nav = props => {
-  const { onClick, screen, setHelpOpen, setSettingsOpen } = props;
+  const { handleMode, screen, setHelpOpen, setSettingsOpen } = props;
   const classes = useStyles();
 
   const location = screen == "main" ? "did" : "main";
@@ -48,13 +48,12 @@ export const Nav = props => {
           <HelpIcon />
         </IconButton>
         <Fab
-          onClick={() => onClick(location)}
+          onClick={() => handleMode(location)}
           color="secondary"
           aria-label="add item"
           className={classes.fabButton}
         >
-          {screen == "did" && <HomeIcon />}
-          {screen == "main" && <AddIcon />}
+          {screen == "main" ? <AddIcon /> : <HomeIcon />}
         </Fab>
         <div className={classes.grow} />
         <IconButton

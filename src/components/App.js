@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import localforage from "localforage";
 import Drawer from "@material-ui/core/Drawer";
-import { NewScreen, ListScreen, Nav, Help, Settings } from "../components";
+import {
+  ActionScreen,
+  NewScreen,
+  ListScreen,
+  Nav,
+  Help,
+  Settings,
+} from "../components";
 
 export const App = () => {
   const [helpOpen, setHelpOpen] = useState(false);
@@ -9,6 +16,7 @@ export const App = () => {
   const [screen, setScreen] = useState("main");
   const [newThing, setNewThing] = useState("");
   const [things, setThings] = useState([]);
+  const [selectedThing, setSelectedThing] = useState(null);
 
   useEffect(() => {
     localforage
@@ -21,7 +29,7 @@ export const App = () => {
       });
   });
 
-  const handleClick = value => {
+  const handleMode = value => {
     setScreen(value);
   };
 
@@ -40,10 +48,28 @@ export const App = () => {
     setScreen("main");
   };
 
+  const updateThing = (thing, updatedThing) => {
+    const { description, date } = thing;
+    const { description: updatedDescription, date: updatedDate } = updatedThing;
+    console.log(description, updatedDescription);
+    const saveDescription =
+      description === updatedDescription ? description : updatedDescription;
+    const saveDate = date === updatedDate ? date : updatedDate;
+    const oldThings = things.filter(x => x.description != description);
+    const newThing = { description: saveDescription, date: saveDate };
+    console.log("old things", oldThings);
+    console.log("newthing", newThing);
+    setThings([...oldThings, newThing]);
+    localforage.setItem("things", [...oldThings, newThing]).catch(err => {
+      console.log(err);
+    });
+    setNewThing("");
+  };
+
   return (
     <div>
       <Nav
-        onClick={handleClick}
+        handleMode={handleMode}
         screen={screen}
         setHelpOpen={setHelpOpen}
         setSettingsOpen={setSettingsOpen}
@@ -57,7 +83,21 @@ export const App = () => {
         />
       )}
       {screen == "main" && (
-        <ListScreen things={things} handleSubmission={addThing} />
+        <ListScreen
+          things={things}
+          handleSubmission={addThing}
+          handleMode={handleMode}
+          setSelectedThing={setSelectedThing}
+        />
+      )}
+      {screen == "action" && (
+        <ActionScreen
+          things={things}
+          selectedThing={selectedThing}
+          handleSubmission={addThing}
+          updateThing={updateThing}
+          goHome={handleMode}
+        />
       )}
       <Drawer open={helpOpen} onClose={() => setHelpOpen(false)}>
         {<Help />}

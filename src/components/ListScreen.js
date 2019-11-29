@@ -1,5 +1,5 @@
 import React from "react";
-import formatDistance from "date-fns/formatDistance";
+import { formatDistance, isToday } from "date-fns";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -28,8 +28,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const ListScreen = props => {
-  const { things, handleSubmission } = props;
+  const { things, handleSubmission, handleMode, setSelectedThing } = props;
   const classes = useStyles();
+
+  const handleItemClick = thing => {
+    setSelectedThing(thing);
+    handleMode("action");
+  };
+
   return (
     <React.Fragment>
       <Title text="When I Last" />
@@ -37,22 +43,17 @@ export const ListScreen = props => {
         {things &&
           things.map((thing, i) => (
             <React.Fragment key={i}>
-              <ListItem>
+              <ListItem button onClick={() => handleItemClick(thing)}>
                 <ListItemText
                   primary={thing.description}
-                  secondary={formatDistance(new Date(thing.date), new Date(), {
-                    addSuffix: true,
-                  })}
+                  secondary={
+                    isToday(thing.date)
+                      ? "Today"
+                      : formatDistance(new Date(thing.date), new Date(), {
+                          addSuffix: true,
+                        })
+                  }
                 />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    edge="end"
-                    aria-label="mark done"
-                    onClick={e => handleSubmission(thing)}
-                  >
-                    <CheckCircleIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
               </ListItem>
             </React.Fragment>
           ))}
